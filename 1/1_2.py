@@ -1,3 +1,4 @@
+#!/usr/bin/env python
 """
 Your calculation isn't quite right. It looks like some of the digits are actually spelled out with letters: one, two, three, four, five, six, seven, eight, and nine also count as valid "digits".
 
@@ -21,7 +22,6 @@ total = 0
 with open("input",'r') as f:
 	for line in f:
 		found = False
-		print(line)
 		for i in range(len(line)):
 			if not found and line[i] in numbers:
 				total += 10 * int(line[i])
@@ -31,7 +31,6 @@ with open("input",'r') as f:
 				try:
 					if not found and line[i:].index(n) == 0:
 						total += 10 * v
-						print(n)
 						found = True
 				except:
 					pass
@@ -40,13 +39,11 @@ with open("input",'r') as f:
 		for i in range(len(line)-1,-1,-1):
 			if not found and line[i] in numbers:
 				total += int(line[i])
-				print(line[i])
 				found = True
 			for v, n in enumerate(numbers_spelled):
 				try:
 					if not found and line[i:].index(n) == 0:
 						total += v
-						print(n)
 						found = True
 				except:
 					pass
