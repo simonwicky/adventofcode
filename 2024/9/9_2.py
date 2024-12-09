@@ -19,11 +19,10 @@ Start over, now compacting the amphipod's hard drive using this new method inste
 """
 
 
-def find_free_space(ls, file):
-    for i in range(len(ls)):
-        if ls[i: i + file[1]] == [file[0]] * file[1]:
-            return -1
-        if ls[i: i + file[1]] == [-1] * file[1]:
+def find_free_space(disk, file_index):
+    file_size = disk[file_index][1]
+    for i in range(file_index):
+        if disk[i][0] == -1 and disk[i][1] >= file_size:
             return i
     return -1
 
@@ -34,33 +33,40 @@ with open('input','r') as f:
             
 
 only_data = [(i // 2 ,int(size)) for i,size in enumerate(disk) if i % 2 == 0]
+
 expanded_disk = []
-
-id = 0
-data = True
-for size in disk:
-    if data:
-        expanded_disk += [id] * int(size)
-        id += 1
+for i,size in enumerate(disk):
+    if size == '0':
+        continue
+    if i % 2 == 0:
+        expanded_disk += [(i // 2 ,int(size))]
     else:
-        expanded_disk += [-1] * int(size)
-    data = not data
+         expanded_disk += [(-1 ,int(size))]
 
-for file in reversed(only_data):
-    print(file)
-    index = find_free_space(expanded_disk, file)
-    if index != -1:
-        replace_idx = expanded_disk.index(file[0])
-        for i in range(replace_idx, replace_idx + file[1]):
-            expanded_disk[i] = -1
-        for i in range(index, index + file[1]):
-            expanded_disk[i] = file[0]
-        
 
-print(sum([i * el for i, el in enumerate(expanded_disk) if el != -1]))
-            
-#this is slow as fuck
-#6250605700557
-#should do better, probably numpy array for the searching and replacing
+i = len(expanded_disk) -1
+while i >= 0:
+    if expanded_disk[i][0] != -1:
+        index = find_free_space(expanded_disk,i)
+        if index != -1:
+            if expanded_disk[index][1] == expanded_disk[i][1]:
+                expanded_disk[index] = expanded_disk[i] #spot on replacement
+            else:
+                expanded_disk = expanded_disk[:index] + [expanded_disk[i], (-1, expanded_disk[index][1] - expanded_disk[i][1])] + expanded_disk[index+1:]
+                i += 1 #we added something
+            expanded_disk[i] = (-1, expanded_disk[i][1])
+    i -= 1
+
+
+
+checksum = 0
+multiplier = 0
+for file in expanded_disk:
+    for i in range(file[1]):
+        if file[0] != -1:
+            checksum += multiplier * file[0]
+        multiplier += 1
+print(checksum)
+
 
 
