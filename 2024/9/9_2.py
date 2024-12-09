@@ -50,19 +50,14 @@ for file in reversed(only_data):
     print(file)
     index = find_free_space(expanded_disk, file)
     if index != -1:
-        for i in range(len(expanded_disk)):
-            if expanded_disk[i] == file[0]:
-                expanded_disk[i] = -1
-        expanded_disk = expanded_disk[:index] + [file[0]] * file[1] + expanded_disk[index + file[1]:]
+        replace_idx = expanded_disk.index(file[0])
+        for i in range(replace_idx, replace_idx + file[1]):
+            expanded_disk[i] = -1
+        for i in range(index, index + file[1]):
+            expanded_disk[i] = file[0]
         
 
-for i in range(len(expanded_disk)):
-    if expanded_disk[i] == -1:
-        expanded_disk[i] = 0
-
-
-
-print(sum([i * el for i, el in enumerate(expanded_disk)]))
+print(sum([i * el for i, el in enumerate(expanded_disk) if el != -1]))
             
 #this is slow as fuck
 #6250605700557
