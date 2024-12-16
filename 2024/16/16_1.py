@@ -90,6 +90,7 @@ class Position():
     def __init__(self, i,j):
         self.i = i
         self.j = j
+        self.visited = False
         self.distances = {}
         for direction in DIRECTIONS:
             self.distances[direction] = math.inf 
@@ -99,7 +100,12 @@ class Position():
         for direction in DIRECTIONS:
             if self.distances[direction] < tmp:
                 tmp = self.distances[direction]
-        return tmp
+        return tmp  
+   
+    def min_distance_visited(self):
+        if self.visited:
+            return math.inf
+        return self.min_distance()
     def key(self):
         return (self.i, self.j)
 
@@ -131,19 +137,26 @@ for i in range(len(grid)):
             start.distances[DIRECTIONS[1]] = 0
             start.distances[DIRECTIONS[2]] = 1000
             start.distances[DIRECTIONS[3]] = 1000
+            labyrinth[(i,j)] = start
 
 
 #Dijkstra
 current = start
-while current.key != end.key:
+while current:
     for direction in DIRECTIONS:
         pos = labyrinth.get((current.i + direction[0], current.j + direction[1]), None)
         if pos:
-            if pos.distances[direction] > current.distances[direction] + 1:
-                pos.distances[direction] = current.distances[direction] + 1
+
+            new_distance = current.distances[direction] + 1
+            if new_distance < pos.distances[direction] :
+                pos.distances[direction] = new_distance
             for other in DIRECTIONS:
                 if other != direction and pos.distances[other] > pos.distances[direction] + 1000:
                     pos.distances[other] = pos.distances[direction] + 1000
-    current = labyrinth.pop(min(labyrinth.values(), key = lambda x : x.min_distance()).key())
+
+    current.visited = True
+    current = labyrinth.get(min(labyrinth.values(), key = lambda x : x.min_distance_visited()).key())
+    if current.visited:
+        current = None
 
 print(end.min_distance())
