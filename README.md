@@ -20,7 +20,7 @@ Keeping track of solutions to various puzzles from https://adventofcode.com/
 
 ## Previous years
 
-[![Completion Status](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/simonwicky/adventofcode/master/.github/badges/completion2024.json)](https://adventofcode.com/2024/about)
+[![Completion Status](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/simonwicky/adventofcode/master/.github/badges/completion2024.json)](https://adventofcode.com/2024/about)  
 [![Completion Status](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/simonwicky/adventofcode/master/.github/badges/completion2023.json)](https://adventofcode.com/2023/about)  
 [![Completion Status](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/simonwicky/adventofcode/master/.github/badges/completion2022.json)](https://adventofcode.com/2022/about)  
 [![Completion Status](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/simonwicky/adventofcode/master/.github/badges/completion2021.json)](https://adventofcode.com/2021/about)  
